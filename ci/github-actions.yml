@@ -1,0 +1,20 @@
+name: Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: pip install -r requirements.txt
+      - name: Run review
+        run: python scripts/review_agent.py --pr ${{ github.event.pull_request.number }}
+      - name: Post comments
+        run: python scripts/post_comments.py --pr ${{ github.event.pull_request.number }}
