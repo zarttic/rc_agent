@@ -1,0 +1,25 @@
+name: Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: pip install -r requirements.txt
+      - name: Run review pipeline
+        run: python scripts/review_agent.py --pr ${{ github.event.pull_request.number }} --config config/default.json --output-dir artifacts
+      - name: Post comments
+        run: python scripts/post_comments.py --pr ${{ github.event.pull_request.number }} --report artifacts/report.json
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: review-report
+          path: artifacts/

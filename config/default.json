@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "ai": {
+    "enabled": true,
+    "model": "gpt-5",
+    "timeout_seconds": 45
+  },
+  "languages": {
+    "python": {
+      "enabled": true,
+      "tools": ["flake8", "pylint", "mypy", "bandit"]
+    },
+    "javascript": {
+      "enabled": true,
+      "tools": ["eslint", "tsc"]
+    },
+    "cpp": {
+      "enabled": false,
+      "tools": ["clang-tidy", "cppcheck"]
+    }
+  },
+  "severity_mapping": {
+    "blocker": "high",
+    "critical": "high",
+    "warning": "medium",
+    "info": "low"
+  },
+  "ignore": {
+    "paths": ["**/node_modules/**", "**/dist/**"],
+    "rules": []
+  }
+}

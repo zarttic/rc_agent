@@ -1,0 +1,15 @@
+stages:
+  - review
+
+code_review:
+  stage: review
+  image: python:3.11
+  script:
+    - pip install -r requirements.txt
+    - python scripts/review_agent.py --mr "$CI_MERGE_REQUEST_IID" --config config/default.json --output-dir artifacts
+    - python scripts/post_comments.py --mr "$CI_MERGE_REQUEST_IID" --report artifacts/report.json
+  artifacts:
+    when: always
+    paths:
+      - artifacts/report.json
+      - artifacts/report.md

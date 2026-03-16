@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReviewAgentConfig",
+  "type": "object",
+  "properties": {
+    "version": {"type": "integer"},
+    "ai": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "model": {"type": "string"},
+        "timeout_seconds": {"type": "integer", "minimum": 1}
+      },
+      "required": ["enabled", "model", "timeout_seconds"]
+    },
+    "languages": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "enabled": {"type": "boolean"},
+          "tools": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        },
+        "required": ["enabled", "tools"]
+      }
+    },
+    "ignore": {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "rules": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "required": ["paths", "rules"]
+    }
+  },
+  "required": ["version", "ai", "languages", "ignore"]
+}
